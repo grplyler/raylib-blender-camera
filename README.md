@@ -125,3 +125,4 @@ bcam.camera.fovy = 70.0f;
 
 - [ ] Possibly integrate into `raylib-extras` repo.
 - [ ] Add Orthographic Support
+- [ ] Add orbit around selection option
