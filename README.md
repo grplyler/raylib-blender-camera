@@ -12,15 +12,15 @@ This project provides a blender style camera (with both orbit and fly modes) tha
 
 _Free Fly Mode_
 
-`LSHIFT + F` to toggle free fly mode
-`WASD` to move
-`QE` to move up and down
+- `LSHIFT + F` to toggle free fly mode
+- `WASD` to move
+- `QE` to move up and down
 
 _Gimbal Orbit Mode_
 
-`MIDDLE MOUSE MOVE` Orbit
-`LSHIFT + MIDDLE MOUSE` Pan
-`SCROLL WHEEL` Zoom
+- `MIDDLE MOUSE MOVE` Orbit
+- `LSHIFT + MIDDLE MOUSE` Pan
+- `SCROLL WHEEL` Zoom
 
 ## Usage with Raylib
 
