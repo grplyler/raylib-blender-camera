@@ -1,6 +1,6 @@
 # A Blender Style Camera Implemenation for [Raylib](https://github.com/raysan5/raylib)
 
-This project provides a blender style camera (with both orbit and fly modes) that is header only, and can be used in **2 lines of code**!
+This project provides a blender style camera (with both orbit and fly modes) that is header only, and can be used in **3 lines of code**!
 
 **Supported Modes/Features**
 
@@ -49,12 +49,13 @@ int main()
 
     while (!WindowShouldClose())
     {
-        // Update the camera (Line 2 of 2)
+        // Update the camera (Line 2 of 3)
         BlenderCameraUpdate(&bcam);
 
         BeginDrawing();
             ClearBackground(BLENDER_DARK_GREY);
 
+            // Use the camera in 3D mode (Line 3 of 3!)
             BeginMode3D(bcam.camera);
 
                 DrawCube(cubePosition, 2.0f, 2.0f, 2.0f, BLENDER_GREY);
