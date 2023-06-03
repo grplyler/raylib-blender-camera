@@ -15,7 +15,5 @@ target_include_directories(${PROJECT_NAME} PRIVATE vendor/raylib/src)
 # Add raygui include directory
 target_include_directories(${PROJECT_NAME} PRIVATE vendor/raygui/src)
 
-# Raygui build command:
-# gcc -o raygui.dynlib src/raygui.c -shared -fpic -DRAYGUI_IMPLEMENTATION -framework OpenGL -lm -lpthread -ldl $(pkg-config --libs --cflags raylib)
-
+# Add raylib library
 target_link_libraries(${PROJECT_NAME} raylib)

@@ -1,63 +1,89 @@
+#include "raylib.h"
+#include "rcamera_blender.h"
+#include "rlgl.h"
 
-#include "raylib.h"   
-
-#define RAYGUI_IMPLEMENTATION
-#include "raygui.h"
-
-//------------------------------------------------------------------------------------
-// Program main entry point
-//------------------------------------------------------------------------------------
-int main(void)
+// Utility to draw a grid with colors like blender
+static void DrawGridEx(int slices, float spacing)
 {
-    // Initialization
-    //--------------------------------------------------------------------------------------
+    int halfSlices = slices / 2;
+
+    rlBegin(RL_LINES);
+    for (int i = -halfSlices; i <= halfSlices; i++)
+    {
+        if (i == 0)
+        {
+            rlColor3f(0.5f, 0.5f, 0.5f);
+            rlColor3f(0.5f, 0.5f, 0.5f);
+            rlColor3f(0.5f, 0.5f, 0.5f);
+            rlColor3f(0.5f, 0.5f, 0.5f);
+        }
+        else
+        {
+            rlColor3f(0.3f, 0.3f, 0.3f);
+            rlColor3f(0.3f, 0.3f, 0.3f);
+            rlColor3f(0.3f, 0.3f, 0.3f);
+            rlColor3f(0.3f, 0.3f, 0.3f);
+        }
+
+        rlVertex3f((float)i * spacing, 0.0f, (float)-halfSlices * spacing);
+        rlVertex3f((float)i * spacing, 0.0f, (float)halfSlices * spacing);
+
+        rlVertex3f((float)-halfSlices * spacing, 0.0f, (float)i * spacing);
+        rlVertex3f((float)halfSlices * spacing, 0.0f, (float)i * spacing);
+    }
+    rlEnd();
+}
+
+int main()
+{
     const int screenWidth = 800;
     const int screenHeight = 450;
 
-    // Variables
-    bool showTextInputBox = false;
-    bool checked = false;
+    InitWindow(screenWidth, screenHeight, "Blender Camera");
 
-    InitWindow(screenWidth, screenHeight, "Raylib CMake Starter");
-    SetTargetFPS(60); // Set our game to run at 60 frames-per-second
-    SetWindowState(FLAG_WINDOW_RESIZABLE);
-    //--------------------------------------------------------------------------------------
+    // Initialize the camera
+    BlenderCamera bcam = CreateBlenderCamera();
 
-    // GUI: Initialize gui parameters
-    // GuiLoadStyle("/Users/ryan/code/projects/raylib-cmake-starter/vendor/raygui/styles/cyber/cyber.rgs");
-    GuiLoadStyle("/Users/ryan/code/projects/raylib-cmake-starter/vendor/raygui/styles/jungle/jungle.rgs");
+    SetTargetFPS(60);
+    DisableCursor();
 
-    // Main game loop
-    while (!WindowShouldClose()) // Detect window close button or ESC key
+    // Define the cube position
+    Vector3 cubePosition = {0.0f, 0.0f, 0.0f};
+
+    while (!WindowShouldClose())
     {
-        // Update
-        //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
-        //----------------------------------------------------------------------------------
+        // Update the camera
+        BlenderCameraUpdate(&bcam);
 
-        // Draw
-        //----------------------------------------------------------------------------------
+
         BeginDrawing();
+            ClearBackground(BLENDER_DARK_GREY);
 
-        ClearBackground(GetColor(GuiGetStyle(DEFAULT, BACKGROUND_COLOR)));
+            BeginMode3D(bcam.camera);
 
-        if (GuiButton((Rectangle){ 25, 255, 125, 30 }, "Push me!")) {
-            printf("Button clicked!\n");
-        }
+                DrawCube(cubePosition, 2.0f, 2.0f, 2.0f, BLENDER_GREY);
+                DrawCubeWires(cubePosition, 2.0f, 2.0f, 2.0f, ORANGE);
 
-        // Add a checkbox
-        GuiCheckBox((Rectangle){ 25, 290, 20, 20 }, "Check me", &checked);
+                DrawGridEx(20, 1.0f);
 
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+            EndMode3D();
+
+            if (bcam.freeFly)
+            {
+                DrawText("Blender Camera Mode: FREE_FLY", 10, 10, 20, BLENDER_GREY);
+            }
+            else
+            {
+                DrawText("Blender Camera Mode: GIMBAL_ORBIT", 10, 10, 20, BLENDER_GREY);
+            }
+
+
+            DrawFPS(10, screenHeight - 30);
 
         EndDrawing();
-        //----------------------------------------------------------------------------------
     }
 
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    CloseWindow(); // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
+    CloseWindow();
 
     return 0;
 }
