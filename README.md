@@ -8,7 +8,7 @@ This project provides a blender style camera (with both orbit and fly modes) tha
 2. Free Fly Mode (WASD + QE with normal, fast, and slow mode)
 
 
-**Keyboard Controls**
+## Keyboard Controls
 
 _Free Fly Mode_
 
